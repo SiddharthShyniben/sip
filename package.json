@@ -4,7 +4,7 @@
   "description": "File/Folder compression library",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jest",
+    "test": "xo && jest",
     "build": "rollup --config"
   },
   "repository": {
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/SiddharthShyniben/sip#readme",
   "devDependencies": {
-    "rollup": "^2.47.0"
+    "rollup": "^2.47.0",
+    "xo": "^0.40.1"
   }
 }
