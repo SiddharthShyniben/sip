@@ -1,4 +1,4 @@
-export function compress(data) {
+export function compress(str) {
 	let dict = {},
 		data = (str + "").split(""),
 		out = [],
@@ -24,7 +24,7 @@ export function compress(data) {
 	return out.join("");
 }
 
-export function decompress(compressed) {
+export function decompress(str) {
 	let dict = {},
 		data = (str + "").split(""),
 		currChar = data[0],
