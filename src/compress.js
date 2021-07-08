@@ -1,47 +1,55 @@
-export function compress(str) {
-	let dict = {},
-		data = (str + "").split(""),
-		out = [],
-		currChar,
-		phrase = data[0],
-		code = 256;
+export function compress(string) {
+	const dict = {};
+	const data = (String(string)).split('');
+	const out = [];
+	let currChar;
+	let phrase = data[0];
+	let code = 256;
 
 	for (let i = 1; i < data.length; i++) {
 		currChar = data[i];
-		if (dict[phrase + currChar] != null) phrase += currChar;
-		else {
+		if (dict[phrase + currChar] === null) {
 			out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
 			dict[phrase + currChar] = code;
 			code++;
 			phrase = currChar;
+		} else {
+			phrase += currChar;
 		}
 	}
 
 	out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
 
-	for (let i = 0; i < out.length; i++) out[i] = String.fromCharCode(out[i]);
+	for (let i = 0; i < out.length; i++) {
+		out[i] = String.fromCharCode(out[i]);
+	}
 
-	return out.join("");
+	return out.join('');
 }
 
-export function decompress(str) {
-	let dict = {},
-		data = (str + "").split(""),
-		currChar = data[0],
-		oldPhrase = currChar,
-		out = [currChar],
-		code = 256,
-		phrase;
+export function decompress(string) {
+	const dict = {};
+	const data = (String(string)).split('');
+	let currChar = data[0];
+	let oldPhrase = currChar;
+	const out = [currChar];
+	let code = 256;
+	let phrase;
 
 	for (let i = 1; i < data.length; i++) {
-		let currCode = data[i].charCodeAt(0);
-		if (currCode < 256) phrase = data[i];
-		else phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
+		const currCode = data[i].charCodeAt(0);
+		if (currCode < 256) {
+			phrase = data[i];
+		} else {
+			phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
+		}
+
 		out.push(phrase);
 		currChar = phrase.charAt(0);
 		dict[code] = oldPhrase + currChar;
 		code++;
 		oldPhrase = phrase;
 	}
-	return out.join("");
+
+	return out.join('');
 }
