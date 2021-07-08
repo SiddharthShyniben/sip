@@ -1,0 +1,26 @@
+{
+  "name": "sip",
+  "version": "1.0.0",
+  "description": "File/Folder compression library",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SiddharthShyniben/sip.git"
+  },
+  "keywords": [
+    "zip",
+    "compress"
+  ],
+  "author": "SiddharthShyniben <siddharth.muscat@gmail.com> (https://github.com/SiddharthShyniben)",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/SiddharthShyniben/sip/issues"
+  },
+  "homepage": "https://github.com/SiddharthShyniben/sip#readme",
+  "devDependencies": {
+    "rollup": "^2.47.0"
+  }
+}
