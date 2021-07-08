@@ -1,5 +1,5 @@
 const config = {
-	input: 'src/index.js',
+	input: 'src/index.mjs',
 	output: {
 		dir: 'dist',
 		format: 'umd',
