@@ -1,7 +1,15 @@
 export function sip() {
-	return 'zipped content'
+	
 }
 
 export function unsip() {
-	return 'unzipped content'
+	
+}
+
+export function sipPath() {
+	
+}
+
+export function unsipPath() {
+	
 }
