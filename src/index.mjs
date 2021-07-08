@@ -1,4 +1,4 @@
-import {compress, decompress} from './compresst.js';
+import {compress, decompress} from './compress.js';
 
 export function sip(data) {
 	return compress(data);
