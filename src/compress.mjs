@@ -8,7 +8,8 @@ export function compress(string) {
 
 	for (let i = 1; i < data.length; i++) {
 		currChar = data[i];
-		if (dict[phrase + currChar] === null) {
+		/* eslint-disable-next-line no-eq-null, eqeqeq */
+		if (dict[phrase + currChar] == null) {
 			out.push(phrase.length > 1 ? dict[phrase] : phrase.charCodeAt(0));
 			dict[phrase + currChar] = code;
 			code++;
