@@ -25,5 +25,23 @@ export function compress(data) {
 }
 
 export function decompress(compressed) {
+	let dict = {},
+		data = (str + "").split(""),
+		currChar = data[0],
+		oldPhrase = currChar,
+		out = [currChar],
+		code = 256,
+		phrase;
 
+	for (let i = 1; i < data.length; i++) {
+		let currCode = data[i].charCodeAt(0);
+		if (currCode < 256) phrase = data[i];
+		else phrase = dict[currCode] ? dict[currCode] : (oldPhrase + currChar);
+		out.push(phrase);
+		currChar = phrase.charAt(0);
+		dict[code] = oldPhrase + currChar;
+		code++;
+		oldPhrase = phrase;
+	}
+	return out.join("");
 }
