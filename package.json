@@ -4,8 +4,9 @@
   "description": "File/Folder compression library",
   "main": "dist/index.js",
   "scripts": {
-    "test": "xo && ava",
-    "build": "rollup --config"
+    "test": "npm run lint && ava",
+    "build": "rollup --config",
+		"lint": "xo --fix"
   },
   "repository": {
     "type": "git",
