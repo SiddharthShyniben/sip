@@ -22,5 +22,8 @@
   "homepage": "https://github.com/SiddharthShyniben/sip#readme",
   "devDependencies": {
     "rollup": "^2.47.0"
+  },
+  "dependencies": {
+    "typescript": "^4.3.2"
   }
 }
