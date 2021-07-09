@@ -15,7 +15,7 @@ function printHelp() {
 	console.log(
 		`
 szip 1.0
-usage: sip [-cdhioVv] [-s .suffix] [-i text] [<file> [<file> ...]
+usage: sip [-cdhioVv] [-i text] [<file> [<file> ...]
 
 -c --stdout        write output to stdout and keep files
    --to-stdout
@@ -48,6 +48,10 @@ function formatBytes(bytes, decimals = 2) {
 
 function getByteCount(string) {
 	return Buffer.byteLength(string, 'utf8');
+}
+
+function logInfo(...args) {
+	console.log('\u001B[36mINFO\u001B[0m ' + args.join(' '));
 }
 
 // Imports break this so I gotta ignore
@@ -94,20 +98,20 @@ if (argv.input) {
 	const compressed = sip(argv.input);
 
 	if (argv.verbose) {
-		console.log(
-			'\u001B[36mINFO\u001B[0m Input ' +
-			formatBytes(getByteCount(argv.input)) +
-			', ' +
-			argv.input.length +
-			' characters.'
+		logInfo(
+			'Input',
+			formatBytes(getByteCount(argv.input)), 
+			',',
+			argv.input.length,
+			'characters.'
 		);
 
-		console.log(
-			'\u001B[36mINFO\u001B[0m Compressed ' +
-			formatBytes(getByteCount(compressed)) +
-			', ' +
-			compressed.length +
-			' characters.\n'
+		logInfo(
+			'Compressed', 
+			formatBytes(getByteCount(compressed)), 
+			',', 
+			compressed.length, 
+			'characters.'
 		);
 	}
 
@@ -137,7 +141,7 @@ if (argv._.length > 0) {
 			}
 
 			if (argv.verbose) {
-				console.log('\u001B[36mINFO\u001B[0m Wrote ' + file + 'to' + filename);
+				logInfo('Wrote', file, 'to', filename);
 			}
 		}
 	} else {
@@ -155,27 +159,25 @@ if (argv._.length > 0) {
 				}
 
 				if (argv.verbose) {
-					console.log('\u001B[36mINFO\u001B[0m ' +
-						argv.keep ? 'Trashing' : 'Not trashing' +
-						' original file');
+					logInfo(argv.keep ? 'Trashing' : 'Not trashing', 'original file');
 				}
 			}
 
 			if (argv.verbose) {
-				console.log(
-					'\u001B[36mINFO\u001B[0m File contents ' +
-					formatBytes(getByteCount(fileContents)) +
-					', ' +
-					fileContents.length +
-					' characters.'
+				logInfo(
+					'File contents',
+					formatBytes(getByteCount(fileContents)),
+					',',
+					fileContents.length,
+					'characters.'
 				);
 
-				console.log(
-					'\u001B[36mINFO\u001B[0m Compressed ' +
-					formatBytes(getByteCount(compressed)) +
-					', ' +
-					compressed.length +
-					' characters.\n'
+				logInfo(
+					'Compressed',
+					formatBytes(getByteCount(compressed)),
+					',',
+					compressed.length,
+					'characters.'
 				);
 			}
 		}
