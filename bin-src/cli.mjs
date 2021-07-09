@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import minimist from 'minimist';
 import trash from 'trash';
 import {printHelp} from './help.mjs';
-import {formatBytes, getByteCount} from './utils.mjs';
+import {formatBytes, getByteCount, logInfo} from './utils.mjs';
 
 // Imports break this so I gotta ignore
 /* eslint-disable-next-line unicorn/prefer-module */
@@ -48,20 +48,20 @@ if (argv.input) {
 	const compressed = sip(argv.input);
 
 	if (argv.verbose) {
-		console.log(
-			'\u001B[36mINFO\u001B[0m Input ' +
-			formatBytes(getByteCount(argv.input)) +
-			', ' +
-			argv.input.length +
-			' characters.'
+		logInfo(
+			'Input'
+			formatBytes(getByteCount(argv.input)), 
+			',',
+			argv.input.length,
+			'characters.'
 		);
 
-		console.log(
-			'\u001B[36mINFO\u001B[0m Compressed ' +
-			formatBytes(getByteCount(compressed)) +
-			', ' +
-			compressed.length +
-			' characters.\n'
+		logInfo(
+			'Compressed', 
+			formatBytes(getByteCount(compressed)), 
+			',', 
+			compressed.length, 
+			'characters.'
 		);
 	}
 
@@ -91,7 +91,7 @@ if (argv._.length > 0) {
 			}
 
 			if (argv.verbose) {
-				console.log('\u001B[36mINFO\u001B[0m Wrote ' + file + 'to' + filename);
+				logInfo('Wrote', file, 'to', filename);
 			}
 		}
 	} else {
@@ -109,27 +109,25 @@ if (argv._.length > 0) {
 				}
 
 				if (argv.verbose) {
-					console.log('\u001B[36mINFO\u001B[0m ' +
-						argv.keep ? 'Trashing' : 'Not trashing' +
-						' original file');
+					logInfo(argv.keep ? 'Trashing' : 'Not trashing', 'original file');
 				}
 			}
 
 			if (argv.verbose) {
-				console.log(
-					'\u001B[36mINFO\u001B[0m File contents ' +
-					formatBytes(getByteCount(fileContents)) +
-					', ' +
-					fileContents.length +
-					' characters.'
+				logInfo(
+					'File contents',
+					formatBytes(getByteCount(fileContents)),
+					',',
+					fileContents.length,
+					'characters.'
 				);
 
-				console.log(
-					'\u001B[36mINFO\u001B[0m Compressed ' +
-					formatBytes(getByteCount(compressed)) +
-					', ' +
-					compressed.length +
-					' characters.\n'
+				logInfo(
+					'Compressed',
+					formatBytes(getByteCount(compressed)),
+					',',
+					compressed.length,
+					'characters.'
 				);
 			}
 		}
