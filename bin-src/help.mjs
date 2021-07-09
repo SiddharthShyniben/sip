@@ -4,7 +4,7 @@ export function printHelp(endMessage = '') {
 szip 1.0
 usage: sip [-cdhioqVv] [-s .suffix] [<file> [<file> ...]
 
--c --stdout        write output stdout and keep files
+-c --stdout        write output to stdout and keep files
    --to-stdout
 -d --decompress    uncompress files
    --uncompress    
