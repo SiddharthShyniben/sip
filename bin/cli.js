@@ -9,7 +9,7 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
 var minimist__default = /*#__PURE__*/_interopDefaultLegacy(minimist);
 
-function printHelp(endMessage = '') {
+function printHelp() {
 	console.log(
 		`
 szip 1.0
@@ -28,8 +28,6 @@ usage: sip [-cdhioVv] [-s .suffix] [-i text] [<file> [<file> ...]
    --suffix .suf
 -i text            compress text and write it to the stdout 
    --input text
-
-${endMessage}
 `
 	);
 }
@@ -45,7 +43,7 @@ function formatBytes(bytes, decimals = 2) {
 
 	const i = Math.floor(Math.log(bytes) / Math.log(k));
 
-	return Number.parseFloat((bytes / k ** i).toFixed(dm)) + ' ' + sizes[i];
+	return Number.parseFloat(((bytes / k) ** i).toFixed(dm)) + ' ' + sizes[i];
 }
 
 function getByteCount(string) {
@@ -54,9 +52,34 @@ function getByteCount(string) {
 
 // Imports break this so I gotta ignore
 /* eslint-disable-next-line unicorn/prefer-module */
-const {sip} = require('../dist/index.js');
+const {sip, unsip} = require('../dist/index.js');
 
-const argv = minimist__default['default'](process.argv.slice(2));
+const argv = minimist__default['default'](process.argv.slice(2), {
+	boolean: [
+		'd', 'decompress', 'uncompress',
+		'k', 'keep',
+		'v', 'verbose',
+		'V', 'version',
+		'c', 'stdout', 'to-stdout'
+	],
+	string: [
+		'i', 'input',
+		's', 'suffix'
+	],
+	alias: {
+		d: 'decompress',
+		uncompress: 'decompress',
+		k: 'keep',
+		v: 'verbose',
+		V: 'version',
+		c: 'stdout',
+		'to-stdout': 'stdout',
+		i: 'input',
+		s: 'suffix'
+	}
+});
+
+console.log(argv);
 
 /* eslint-disable unicorn/no-process-exit */
 
@@ -96,37 +119,52 @@ if (argv.i || argv.input) {
 }
 
 if (argv._.length > 0) {
-	for (const file of argv._) {
-		const fileContents = fs__default['default'].readFileSync(file);
-		const compressed = sip(fileContents);
+	if (argv.d || argv.decompress || argv.uncompress) {
+		for (const file of argv._) {
+			const fileContents = fs__default['default'].readFileSync(file);
+			const compressed = unsip(fileContents);
 
-		fs__default['default'].writeFileSync(file + '.sip', compressed);
+			const filename = file.replace(/\.sip$/gim, '');
 
-		if (!argv.keep) {
-			fs__default['default'].unlinkSync(file);
+			fs__default['default'].writeFileSync(filename, compressed);
+
 			if (verbose) {
-				console.log('\u001B[36mINFO\u001B[0m Deleting original file');
+				console.log('\u001B[36mINFO\u001B[0m Wrote ' + file + 'to' + filename);
 			}
-		} else if (verbose) {
-			console.log('\u001B[36mINFO\u001B[0m Not deleting original file');
 		}
+	} else {
+		for (const file of argv._) {
+			const fileContents = fs__default['default'].readFileSync(file);
+			const compressed = sip(fileContents);
 
-		if (verbose) {
-			console.log(
-				'\u001B[36mINFO\u001B[0m File contents ' +
-				formatBytes(getByteCount(fileContents)) +
-				', ' +
-				fileContents.length +
-				' characters.'
-			);
+			fs__default['default'].writeFileSync(file + '.sip', compressed);
 
-			console.log(
-				'\u001B[36mINFO\u001B[0m Compressed ' +
-				formatBytes(getByteCount(compressed)) +
-				', ' +
-				compressed.length +
-				' characters.\n'
-			);
+			if (!argv.keep && !argv.k) {
+				fs__default['default'].unlinkSync(file);
+				if (verbose) {
+					console.log('\u001B[36mINFO\u001B[0m Deleting original file');
+				}
+			} else if (verbose) {
+				console.log('\u001B[36mINFO\u001B[0m Not deleting original file');
+			}
+
+			if (verbose) {
+				console.log(
+					'\u001B[36mINFO\u001B[0m File contents ' +
+					formatBytes(getByteCount(fileContents)) +
+					', ' +
+					fileContents.length +
+					' characters.'
+				);
+
+				console.log(
+					'\u001B[36mINFO\u001B[0m Compressed ' +
+					formatBytes(getByteCount(compressed)) +
+					', ' +
+					compressed.length +
+					' characters.\n'
+				);
+			}
 		}
 	}
 } else {
