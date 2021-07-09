@@ -11,7 +11,7 @@
   "scripts": {
     "test": "npm run lint && ava",
     "build": "rollup --config",
-    "lint": "xo --fix"
+    "lint": "xo --fix --ignore bin"
   },
   "repository": {
     "type": "git",
