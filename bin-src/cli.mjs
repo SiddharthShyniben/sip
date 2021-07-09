@@ -5,7 +5,7 @@ import {formatBytes, getByteCount} from './utils.mjs';
 
 // Imports break this so I gotta ignore
 /* eslint-disable-next-line unicorn/prefer-module */
-const {sip} = require('../dist/index.js');
+const {sip, unsip} = require('../dist/index.js');
 
 const argv = minimist(process.argv.slice(2), {boolean: ['d', 'decompress', 'uncompress', 'k']});
 
