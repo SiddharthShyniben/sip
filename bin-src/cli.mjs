@@ -13,6 +13,4 @@ if (argv.i || argv.input) {
 	console.log('1.0.0');
 } else if (argv.help || argv.h) {
 	printHelp();
-} else {
-	printHelp();
 }
