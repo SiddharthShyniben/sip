@@ -50,7 +50,7 @@ if (argv._.length > 0) {
 	if (argv.d || argv.decompress || argv.uncompress) {
 		for (const file of argv._) {
 			const fileContents = fs.readFileSync(file);
-			const compressed = sip(fileContents);
+			const compressed = unsip(fileContents);
 
 			const filename = file.replace(/\.sip$/gim, '');
 
