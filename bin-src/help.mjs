@@ -1,4 +1,4 @@
-export function printHelp(endMessage = '') {
+export function printHelp() {
 	console.log(
 		`
 szip 1.0
@@ -17,8 +17,6 @@ usage: sip [-cdhioVv] [-s .suffix] [-i text] [<file> [<file> ...]
    --suffix .suf
 -i text            compress text and write it to the stdout 
    --input text
-
-${endMessage}
 `
 	);
 }
