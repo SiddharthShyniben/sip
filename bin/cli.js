@@ -13,15 +13,14 @@ function printHelp(endMessage = '') {
 	console.log(
 		`
 szip 1.0
-usage: sip [-cdhioqVv] [-s .suffix] [<file> [<file> ...]
+usage: sip [-cdhioVv] [-s .suffix] [-i text] [<file> [<file> ...]
 
 -c --stdout        write output to stdout and keep files
    --to-stdout
 -d --decompress    uncompress files
    --uncompress    
 -h --help          show this help
--o --output        specify path to output to
--q --quiet         be quiet
+-k --keep          keep the uncompressed file
 -V --version       show version information
 -v --verbose       print extra statistics
 
@@ -35,6 +34,24 @@ ${endMessage}
 	);
 }
 
+function formatBytes(bytes, decimals = 2) {
+	if (bytes === 0) {
+		return '0 Bytes';
+	}
+
+	const k = 1024;
+	const dm = decimals < 0 ? 0 : decimals;
+	const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+	const i = Math.floor(Math.log(bytes) / Math.log(k));
+
+	return Number.parseFloat((bytes / k ** i).toFixed(dm)) + ' ' + sizes[i];
+}
+
+function getByteCount(string) {
+	return Buffer.byteLength(string, 'utf8');
+}
+
 // Imports break this so I gotta ignore
 /* eslint-disable-next-line unicorn/prefer-module */
 const {sip} = require('../dist/index.js');
@@ -43,8 +60,32 @@ const argv = minimist__default['default'](process.argv.slice(2));
 
 /* eslint-disable unicorn/no-process-exit */
 
+const verbose = argv.v || argv.verbose;
+
 if (argv.i || argv.input) {
-	console.log(sip(argv.i || argv.input));
+	const input = argv.i || argv.input;
+	const compressed = sip(input);
+
+	if (verbose) {
+		console.log(
+			'\u001B[36mINFO\u001B[0m Input ' +
+			formatBytes(getByteCount(input)) +
+			', ' +
+			input.length +
+			' characters.'
+		);
+
+		console.log(
+			'\u001B[36mINFO\u001B[0m Compressed ' +
+			formatBytes(getByteCount(compressed)) +
+			', ' +
+			compressed.length +
+			' characters.\n'
+		);
+	}
+
+	console.log(compressed);
+
 	process.exit(0);
 } else if (argv.V || argv.version) {
 	console.log('1.0.0');
@@ -60,6 +101,33 @@ if (argv._.length > 0) {
 		const compressed = sip(fileContents);
 
 		fs__default['default'].writeFileSync(file + '.sip', compressed);
+
+		if (!argv.keep) {
+			fs__default['default'].unlinkSync(file);
+			if (verbose) {
+				console.log('\u001B[36mINFO\u001B[0m Deleting original file');
+			}
+		} else if (verbose) {
+			console.log('\u001B[36mINFO\u001B[0m Not deleting original file');
+		}
+
+		if (verbose) {
+			console.log(
+				'\u001B[36mINFO\u001B[0m File contents ' +
+				formatBytes(getByteCount(fileContents)) +
+				', ' +
+				fileContents.length +
+				' characters.'
+			);
+
+			console.log(
+				'\u001B[36mINFO\u001B[0m Compressed ' +
+				formatBytes(getByteCount(compressed)) +
+				', ' +
+				compressed.length +
+				' characters.\n'
+			);
+		}
 	}
 } else {
 	printHelp();
