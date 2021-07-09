@@ -17,5 +17,5 @@ export function getByteCount(string) {
 }
 
 export function logInfo(...args) {
-	console.log('\u001B[36mINFO\u001B[0m ' + args.join(' '))
+	console.log('\u001B[36mINFO\u001B[0m ' + args.join(' '));
 }
