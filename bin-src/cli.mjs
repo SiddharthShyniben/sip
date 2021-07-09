@@ -32,8 +32,6 @@ const argv = minimist(process.argv.slice(2), {
 	}
 });
 
-console.log(argv);
-
 /* eslint-disable unicorn/no-process-exit */
 
 const verbose = argv.v || argv.verbose;
