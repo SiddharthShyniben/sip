@@ -12,7 +12,7 @@ this!
 by running:
 
 ```console
-$ npm install sip -g
+$ npm install @siddharthshyniben/sip -g
 ```
 
 ## Using `sip`
