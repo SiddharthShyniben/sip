@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import minimist from 'minimist';
 import {printHelp} from './help.mjs';
 import {formatBytes, getByteCount} from './utils.mjs';
+import trash from 'trash';
 
 // Imports break this so I gotta ignore
 /* eslint-disable-next-line unicorn/prefer-module */
@@ -97,12 +98,12 @@ if (argv._.length > 0) {
 			fs.writeFileSync(file + '.sip', compressed);
 
 			if (!argv.keep) {
-				fs.unlinkSync(file);
+				trash(file)
 			}
 
 			if (argv.verbose) {
 				console.log('\u001B[36mINFO\u001B[0m ' +
-				argv.keep ? 'Deleting' : 'Not deleting' +
+				argv.keep ? 'Trashing' : 'Not trashing' +
 				' original file');
 			}
 
