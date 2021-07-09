@@ -3,11 +3,13 @@
 
 var fs = require('node:fs');
 var minimist = require('minimist');
+var trash = require('trash');
 
 function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
 var fs__default = /*#__PURE__*/_interopDefaultLegacy(fs);
 var minimist__default = /*#__PURE__*/_interopDefaultLegacy(minimist);
+var trash__default = /*#__PURE__*/_interopDefaultLegacy(trash);
 
 function printHelp() {
 	console.log(
@@ -24,8 +26,6 @@ usage: sip [-cdhioVv] [-s .suffix] [-i text] [<file> [<file> ...]
 -V --version       show version information
 -v --verbose       print extra statistics
 
--s .suf            use the .suf suffix instead of .sip
-   --suffix .suf
 -i text            compress text and write it to the stdout 
    --input text
 `
@@ -130,7 +130,11 @@ if (argv._.length > 0) {
 
 			const filename = file.replace(/\.sip$/gim, '');
 
-			fs__default['default'].writeFileSync(filename, compressed);
+			if (argv.stdout) {
+				console.log(compressed);
+			} else {
+				fs__default['default'].writeFileSync(filename, compressed);
+			}
 
 			if (argv.verbose) {
 				console.log('\u001B[36mINFO\u001B[0m Wrote ' + file + 'to' + filename);
@@ -141,16 +145,20 @@ if (argv._.length > 0) {
 			const fileContents = fs__default['default'].readFileSync(file);
 			const compressed = sip(fileContents);
 
-			fs__default['default'].writeFileSync(file + '.sip', compressed);
+			if (argv.stdout) {
+				console.log(compressed);
+			} else {
+				fs__default['default'].writeFileSync(file + '.sip', compressed);
 
-			if (!argv.keep) {
-				fs__default['default'].unlinkSync(file);
-			}
+				if (!argv.keep) {
+					trash__default['default'](file);
+				}
 
-			if (argv.verbose) {
-				console.log('\u001B[36mINFO\u001B[0m ' +
-				argv.keep ? 'Deleting' : 'Not deleting' +
-				' original file');
+				if (argv.verbose) {
+					console.log('\u001B[36mINFO\u001B[0m ' +
+						argv.keep ? 'Trashing' : 'Not trashing' +
+						' original file');
+				}
 			}
 
 			if (argv.verbose) {
