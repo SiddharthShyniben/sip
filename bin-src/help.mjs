@@ -9,6 +9,7 @@ usage: sip [-cdhioqVv] [-s .suffix] [<file> [<file> ...]
 -d --decompress    uncompress files
    --uncompress    
 -h --help          show this help
+-k --keep          keep the uncompressed file
 -o --output        specify path to output to
 -q --quiet         be quiet
 -V --version       show version information
