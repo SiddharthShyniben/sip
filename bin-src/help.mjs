@@ -13,8 +13,6 @@ usage: sip [-cdhioVv] [-s .suffix] [-i text] [<file> [<file> ...]
 -V --version       show version information
 -v --verbose       print extra statistics
 
--s .suf            use the .suf suffix instead of .sip
-   --suffix .suf
 -i text            compress text and write it to the stdout 
    --input text
 `
