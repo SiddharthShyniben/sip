@@ -9,7 +9,7 @@ var minimist__default = /*#__PURE__*/_interopDefaultLegacy(minimist);
 
 function printHelp(endMessage = '') {
 	console.log(
-`
+		`
 szip 1.0
 usage: sip [-cdhioqVv] [-s .suffix] [<file> [<file> ...]
 
@@ -33,13 +33,16 @@ ${endMessage}
 	);
 }
 
-// Imports break this
+// Imports break this so I gotta ignore
+/* eslint-disable-next-line unicorn/prefer-module */
 const {sip} = require('../dist/index.js');
 
 const argv = minimist__default['default'](process.argv.slice(2));
 
 if (argv.i || argv.input) {
 	console.log(sip(argv.i || argv.input));
+} else if (argv.V || argv.version) {
+	console.log('1.0.0');
 } else {
 	printHelp();
 }
