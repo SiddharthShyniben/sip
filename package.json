@@ -3,6 +3,8 @@
   "version": "1.0.0",
   "description": "File/Folder compression library",
   "main": "dist/index.js",
+	"files": ["dist/**/*", "bin/**/*"],
+	"bin": "bin/cli.js",
   "scripts": {
     "test": "npm run lint && ava",
     "build": "rollup --config",
