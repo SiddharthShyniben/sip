@@ -49,7 +49,7 @@ if (argv.input) {
 
 	if (argv.verbose) {
 		logInfo(
-			'Input'
+			'Input',
 			formatBytes(getByteCount(argv.input)), 
 			',',
 			argv.input.length,
