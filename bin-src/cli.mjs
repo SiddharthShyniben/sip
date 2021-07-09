@@ -9,8 +9,11 @@ const argv = minimist(process.argv.slice(2));
 
 if (argv.i || argv.input) {
 	console.log(sip(argv.i || argv.input));
+	process.exit(0);
 } else if (argv.V || argv.version) {
 	console.log('1.0.0');
+	process.exit(0);
 } else if (argv.help || argv.h) {
 	printHelp();
+	process.exit(0);
 }
