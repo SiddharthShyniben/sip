@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "File/Folder compression library",
   "main": "dist/index.js",
-	"files": ["dist/**/*", "bin/**/*"],
-	"bin": "bin/cli.js",
+  "files": [
+    "dist/**/*",
+    "bin/**/*"
+  ],
+  "bin": "bin/cli.js",
   "scripts": {
     "test": "npm run lint && ava",
     "build": "rollup --config",
-		"lint": "xo --fix"
+    "lint": "xo --fix"
   },
   "repository": {
     "type": "git",
@@ -28,5 +31,8 @@
     "ava": "^3.15.0",
     "rollup": "^2.47.0",
     "xo": "^0.40.1"
+  },
+  "dependencies": {
+    "minimist": "^1.2.5"
   }
 }
