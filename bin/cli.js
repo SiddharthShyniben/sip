@@ -56,15 +56,24 @@ const {sip, unsip} = require('../dist/index.js');
 
 const argv = minimist__default['default'](process.argv.slice(2), {
 	boolean: [
-		'd', 'decompress', 'uncompress',
-		'k', 'keep',
-		'v', 'verbose',
-		'V', 'version',
-		'c', 'stdout', 'to-stdout'
+		'd',
+		'decompress',
+		'uncompress',
+		'k',
+		'keep',
+		'v',
+		'verbose',
+		'V',
+		'version',
+		'c',
+		'stdout',
+		'to-stdout'
 	],
 	string: [
-		'i', 'input',
-		's', 'suffix'
+		'i',
+		'input',
+		's',
+		'suffix'
 	],
 	alias: {
 		d: 'decompress',
@@ -79,22 +88,17 @@ const argv = minimist__default['default'](process.argv.slice(2), {
 	}
 });
 
-console.log(argv);
-
 /* eslint-disable unicorn/no-process-exit */
 
-const verbose = argv.v || argv.verbose;
+if (argv.input) {
+	const compressed = sip(argv.input);
 
-if (argv.i || argv.input) {
-	const input = argv.i || argv.input;
-	const compressed = sip(input);
-
-	if (verbose) {
+	if (argv.verbose) {
 		console.log(
 			'\u001B[36mINFO\u001B[0m Input ' +
-			formatBytes(getByteCount(input)) +
+			formatBytes(getByteCount(argv.input)) +
 			', ' +
-			input.length +
+			argv.input.length +
 			' characters.'
 		);
 
@@ -110,16 +114,16 @@ if (argv.i || argv.input) {
 	console.log(compressed);
 
 	process.exit(0);
-} else if (argv.V || argv.version) {
+} else if (argv.version) {
 	console.log('1.0.0');
 	process.exit(0);
-} else if (argv.help || argv.h) {
+} else if (argv.help) {
 	printHelp();
 	process.exit(0);
 }
 
 if (argv._.length > 0) {
-	if (argv.d || argv.decompress || argv.uncompress) {
+	if (argv.decompress) {
 		for (const file of argv._) {
 			const fileContents = fs__default['default'].readFileSync(file);
 			const compressed = unsip(fileContents);
@@ -128,7 +132,7 @@ if (argv._.length > 0) {
 
 			fs__default['default'].writeFileSync(filename, compressed);
 
-			if (verbose) {
+			if (argv.verbose) {
 				console.log('\u001B[36mINFO\u001B[0m Wrote ' + file + 'to' + filename);
 			}
 		}
@@ -139,16 +143,17 @@ if (argv._.length > 0) {
 
 			fs__default['default'].writeFileSync(file + '.sip', compressed);
 
-			if (!argv.keep && !argv.k) {
+			if (!argv.keep) {
 				fs__default['default'].unlinkSync(file);
-				if (verbose) {
-					console.log('\u001B[36mINFO\u001B[0m Deleting original file');
-				}
-			} else if (verbose) {
-				console.log('\u001B[36mINFO\u001B[0m Not deleting original file');
 			}
 
-			if (verbose) {
+			if (argv.verbose) {
+				console.log('\u001B[36mINFO\u001B[0m ' +
+				argv.keep ? 'Deleting' : 'Not deleting' +
+				' original file');
+			}
+
+			if (argv.verbose) {
 				console.log(
 					'\u001B[36mINFO\u001B[0m File contents ' +
 					formatBytes(getByteCount(fileContents)) +
