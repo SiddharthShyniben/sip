@@ -9,15 +9,24 @@ const {sip, unsip} = require('../dist/index.js');
 
 const argv = minimist(process.argv.slice(2), {
 	boolean: [
-		'd', 'decompress', 'uncompress',
-		'k', 'keep',
-		'v', 'verbose',
-		'V', 'version',
-		'c', 'stdout', 'to-stdout'
+		'd',
+		'decompress',
+		'uncompress',
+		'k',
+		'keep',
+		'v',
+		'verbose',
+		'V',
+		'version',
+		'c',
+		'stdout',
+		'to-stdout'
 	],
 	string: [
-		'i', 'input',
-		's', 'suffix'
+		'i',
+		'input',
+		's',
+		'suffix'
 	],
 	alias: {
 		d: 'decompress',
@@ -35,7 +44,7 @@ const argv = minimist(process.argv.slice(2), {
 /* eslint-disable unicorn/no-process-exit */
 
 if (argv.input) {
-	const compressed = sip(input);
+	const compressed = sip(argv.input);
 
 	if (argv.verbose) {
 		console.log(
@@ -89,10 +98,13 @@ if (argv._.length > 0) {
 
 			if (!argv.keep) {
 				fs.unlinkSync(file);
-			} 
-			if (argv.verbose) console.log('\u001B[36mINFO\u001B[0m ' 
-				+ argv.keep ? 'Deleting' : 'Not deleting' 
-				+ ' original file');
+			}
+
+			if (argv.verbose) {
+				console.log('\u001B[36mINFO\u001B[0m ' +
+				argv.keep ? 'Deleting' : 'Not deleting' +
+				' original file');
+			}
 
 			if (argv.verbose) {
 				console.log(
