@@ -2,7 +2,7 @@ export function printHelp(endMessage = '') {
 	console.log(
 		`
 szip 1.0
-usage: sip [-cdhioqVv] [-s .suffix] [<file> [<file> ...]
+usage: sip [-cdhioVv] [-s .suffix] [<file> [<file> ...]
 
 -c --stdout        write output to stdout and keep files
    --to-stdout
@@ -10,7 +10,6 @@ usage: sip [-cdhioqVv] [-s .suffix] [<file> [<file> ...]
    --uncompress    
 -h --help          show this help
 -k --keep          keep the uncompressed file
--q --quiet         be quiet
 -V --version       show version information
 -v --verbose       print extra statistics
 
