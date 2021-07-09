@@ -11,6 +11,8 @@ if (argv.i || argv.input) {
 	console.log(sip(argv.i || argv.input));
 } else if (argv.V || argv.version) {
 	console.log('1.0.0');
+} else if (argv.help || argv.h) {
+	printHelp();
 } else {
 	printHelp();
 }
