@@ -85,8 +85,10 @@ if (argv._.length > 0) {
 			const filename = file.replace(/\.sip$/gim, '');
 
 			if (argv.stdout) {
-				console.log(compressed)
-			} else fs.writeFileSync(filename, compressed);
+				console.log(compressed);
+			} else {
+				fs.writeFileSync(filename, compressed);
+			}
 
 			if (argv.verbose) {
 				console.log('\u001B[36mINFO\u001B[0m Wrote ' + file + 'to' + filename);
@@ -98,7 +100,7 @@ if (argv._.length > 0) {
 			const compressed = sip(fileContents);
 
 			if (argv.stdout) {
-				console.log(compressed)
+				console.log(compressed);
 			} else {
 				fs.writeFileSync(file + '.sip', compressed);
 
@@ -111,7 +113,6 @@ if (argv._.length > 0) {
 						argv.keep ? 'Trashing' : 'Not trashing' +
 						' original file');
 				}
-
 			}
 
 			if (argv.verbose) {
