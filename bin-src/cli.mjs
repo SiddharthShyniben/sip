@@ -34,18 +34,15 @@ const argv = minimist(process.argv.slice(2), {
 
 /* eslint-disable unicorn/no-process-exit */
 
-const verbose = argv.v || argv.verbose;
-
-if (argv.i || argv.input) {
-	const input = argv.i || argv.input;
+if (argv.input) {
 	const compressed = sip(input);
 
-	if (verbose) {
+	if (argv.verbose) {
 		console.log(
 			'\u001B[36mINFO\u001B[0m Input ' +
-			formatBytes(getByteCount(input)) +
+			formatBytes(getByteCount(argv.input)) +
 			', ' +
-			input.length +
+			argv.input.length +
 			' characters.'
 		);
 
@@ -61,16 +58,16 @@ if (argv.i || argv.input) {
 	console.log(compressed);
 
 	process.exit(0);
-} else if (argv.V || argv.version) {
+} else if (argv.version) {
 	console.log('1.0.0');
 	process.exit(0);
-} else if (argv.help || argv.h) {
+} else if (argv.help) {
 	printHelp();
 	process.exit(0);
 }
 
 if (argv._.length > 0) {
-	if (argv.d || argv.decompress || argv.uncompress) {
+	if (argv.decompress) {
 		for (const file of argv._) {
 			const fileContents = fs.readFileSync(file);
 			const compressed = unsip(fileContents);
@@ -79,7 +76,7 @@ if (argv._.length > 0) {
 
 			fs.writeFileSync(filename, compressed);
 
-			if (verbose) {
+			if (argv.verbose) {
 				console.log('\u001B[36mINFO\u001B[0m Wrote ' + file + 'to' + filename);
 			}
 		}
@@ -90,16 +87,14 @@ if (argv._.length > 0) {
 
 			fs.writeFileSync(file + '.sip', compressed);
 
-			if (!argv.keep && !argv.k) {
+			if (!argv.keep) {
 				fs.unlinkSync(file);
-				if (verbose) {
-					console.log('\u001B[36mINFO\u001B[0m Deleting original file');
-				}
-			} else if (verbose) {
-				console.log('\u001B[36mINFO\u001B[0m Not deleting original file');
-			}
+			} 
+			if (argv.verbose) console.log('\u001B[36mINFO\u001B[0m ' 
+				+ argv.keep ? 'Deleting' : 'Not deleting' 
+				+ ' original file');
 
-			if (verbose) {
+			if (argv.verbose) {
 				console.log(
 					'\u001B[36mINFO\u001B[0m File contents ' +
 					formatBytes(getByteCount(fileContents)) +
