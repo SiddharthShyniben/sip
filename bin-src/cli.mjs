@@ -1,6 +1,7 @@
 import fs from 'node:fs';
 import minimist from 'minimist';
 import {printHelp} from './help.mjs';
+import {formatBytes, getByteCount} from './utils.mjs';
 
 // Imports break this so I gotta ignore
 /* eslint-disable-next-line unicorn/prefer-module */
@@ -10,8 +11,32 @@ const argv = minimist(process.argv.slice(2));
 
 /* eslint-disable unicorn/no-process-exit */
 
+const verbose = argv.v || argv.verbose;
+
 if (argv.i || argv.input) {
-	console.log(sip(argv.i || argv.input));
+	const input = argv.i || argv.input;
+	const compressed = sip(input);
+
+	if (verbose) {
+		console.log(
+			'\u001b[36mINFO\u001b[0m Input ' +
+			formatBytes(getByteCount(input)) +
+			', ' +
+			input.length +
+			' characters.'
+		);
+
+		console.log(
+			'\u001b[36mINFO\u001b[0m Compressed ' +
+			formatBytes(getByteCount(compressed)) +
+			', ' +
+			compressed.length +
+			' characters.\n'
+		);
+	}
+
+	console.log(compressed);
+
 	process.exit(0);
 } else if (argv.V || argv.version) {
 	console.log('1.0.0');
@@ -28,7 +53,28 @@ if (argv._.length > 0) {
 
 		fs.writeFileSync(file + '.sip', compressed);
 
-		if (!argv.keep) fs.unlinkSync(file);
+		if (!argv.keep) {
+			fs.unlinkSync(file);
+			if (verbose) console.log('\u001b[36mINFO\u001b[0m Deleting original file');
+		} else if (verbose) console.log('\u001b[36mINFO\u001b[0m Not deleting original file');
+
+		if (verbose) {
+			console.log(
+				'\u001b[36mINFO\u001b[0m File contents ' +
+				formatBytes(getByteCount(fileContents)) +
+				', ' +
+				fileContents.length +
+				' characters.'
+			);
+
+			console.log(
+				'\u001b[36mINFO\u001b[0m Compressed ' +
+				formatBytes(getByteCount(compressed)) +
+				', ' +
+				compressed.length +
+				' characters.\n'
+			);
+		}
 	}
 } else {
 	printHelp();
