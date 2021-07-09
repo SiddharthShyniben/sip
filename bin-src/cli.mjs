@@ -47,37 +47,52 @@ if (argv.i || argv.input) {
 }
 
 if (argv._.length > 0) {
-	for (const file of argv._) {
-		const fileContents = fs.readFileSync(file);
-		const compressed = sip(fileContents);
+	if (argv.d || argv.decompress || argv.uncompress) {
+		for (const file of argv._) {
+			const fileContents = fs.readFileSync(file);
+			const compressed = sip(fileContents);
 
-		fs.writeFileSync(file + '.sip', compressed);
+			const filename = file.replace(/\.sip$/gim, '');
 
-		if (!argv.keep) {
-			fs.unlinkSync(file);
+			fs.writeFileSync(filename, compressed);
+
 			if (verbose) {
-				console.log('\u001B[36mINFO\u001B[0m Deleting original file');
+				console.log('\u001B[36mINFO\u001B[0m Wrote ' + file + 'to' + filename);
 			}
-		} else if (verbose) {
-			console.log('\u001B[36mINFO\u001B[0m Not deleting original file');
 		}
+	} else {
+		for (const file of argv._) {
+			const fileContents = fs.readFileSync(file);
+			const compressed = sip(fileContents);
 
-		if (verbose) {
-			console.log(
-				'\u001B[36mINFO\u001B[0m File contents ' +
-				formatBytes(getByteCount(fileContents)) +
-				', ' +
-				fileContents.length +
-				' characters.'
-			);
+			fs.writeFileSync(file + '.sip', compressed);
 
-			console.log(
-				'\u001B[36mINFO\u001B[0m Compressed ' +
-				formatBytes(getByteCount(compressed)) +
-				', ' +
-				compressed.length +
-				' characters.\n'
-			);
+			if (!argv.keep) {
+				fs.unlinkSync(file);
+				if (verbose) {
+					console.log('\u001B[36mINFO\u001B[0m Deleting original file');
+				}
+			} else if (verbose) {
+				console.log('\u001B[36mINFO\u001B[0m Not deleting original file');
+			}
+
+			if (verbose) {
+				console.log(
+					'\u001B[36mINFO\u001B[0m File contents ' +
+					formatBytes(getByteCount(fileContents)) +
+					', ' +
+					fileContents.length +
+					' characters.'
+				);
+
+				console.log(
+					'\u001B[36mINFO\u001B[0m Compressed ' +
+					formatBytes(getByteCount(compressed)) +
+					', ' +
+					compressed.length +
+					' characters.\n'
+				);
+			}
 		}
 	}
 } else {
