@@ -27,6 +27,8 @@ if (argv._.length > 0) {
 		const compressed = sip(fileContents);
 
 		fs.writeFileSync(file + '.sip', compressed);
+
+		if (!argv.keep) fs.unlinkSync(file);
 	}
 } else {
 	printHelp();
