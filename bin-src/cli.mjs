@@ -19,7 +19,7 @@ if (argv.i || argv.input) {
 
 	if (verbose) {
 		console.log(
-			'\u001b[36mINFO\u001b[0m Input ' +
+			'\u001B[36mINFO\u001B[0m Input ' +
 			formatBytes(getByteCount(input)) +
 			', ' +
 			input.length +
@@ -27,7 +27,7 @@ if (argv.i || argv.input) {
 		);
 
 		console.log(
-			'\u001b[36mINFO\u001b[0m Compressed ' +
+			'\u001B[36mINFO\u001B[0m Compressed ' +
 			formatBytes(getByteCount(compressed)) +
 			', ' +
 			compressed.length +
@@ -55,12 +55,16 @@ if (argv._.length > 0) {
 
 		if (!argv.keep) {
 			fs.unlinkSync(file);
-			if (verbose) console.log('\u001b[36mINFO\u001b[0m Deleting original file');
-		} else if (verbose) console.log('\u001b[36mINFO\u001b[0m Not deleting original file');
+			if (verbose) {
+				console.log('\u001B[36mINFO\u001B[0m Deleting original file');
+			}
+		} else if (verbose) {
+			console.log('\u001B[36mINFO\u001B[0m Not deleting original file');
+		}
 
 		if (verbose) {
 			console.log(
-				'\u001b[36mINFO\u001b[0m File contents ' +
+				'\u001B[36mINFO\u001B[0m File contents ' +
 				formatBytes(getByteCount(fileContents)) +
 				', ' +
 				fileContents.length +
@@ -68,7 +72,7 @@ if (argv._.length > 0) {
 			);
 
 			console.log(
-				'\u001b[36mINFO\u001b[0m Compressed ' +
+				'\u001B[36mINFO\u001B[0m Compressed ' +
 				formatBytes(getByteCount(compressed)) +
 				', ' +
 				compressed.length +
