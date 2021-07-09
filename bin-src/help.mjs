@@ -2,7 +2,7 @@ export function printHelp(endMessage = '') {
 	console.log(
 		`
 szip 1.0
-usage: sip [-cdhioVv] [-s .suffix] [<file> [<file> ...]
+usage: sip [-cdhioVv] [-s .suffix] [-i text] [<file> [<file> ...]
 
 -c --stdout        write output to stdout and keep files
    --to-stdout
