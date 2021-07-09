@@ -25,5 +25,5 @@ test('compression does not increase size', t => {
 	const randomString = getRandomString(64);
 	const compressed = sip(randomString);
 
-	t.true(compressed.length < randomString.length);
+	t.true(compressed.length <= randomString.length);
 });
