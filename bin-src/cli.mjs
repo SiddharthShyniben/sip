@@ -67,7 +67,7 @@ if (argv._.length > 0) {
 
 			fs.writeFileSync(file + '.sip', compressed);
 
-			if (!argv.keep) {
+			if (!argv.keep && !argv.k) {
 				fs.unlinkSync(file);
 				if (verbose) {
 					console.log('\u001B[36mINFO\u001B[0m Deleting original file');
