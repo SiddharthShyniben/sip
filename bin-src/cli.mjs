@@ -1,7 +1,8 @@
 import minimist from 'minimist';
 import {printHelp} from './help.mjs';
 
-// Imports break this
+// Imports break this so I gotta ignore
+/* eslint-disable-next-line unicorn/prefer-module */
 const {sip} = require('../dist/index.js');
 
 const argv = minimist(process.argv.slice(2));

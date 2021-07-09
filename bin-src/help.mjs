@@ -1,6 +1,6 @@
 export function printHelp(endMessage = '') {
 	console.log(
-`
+		`
 szip 1.0
 usage: sip [-cdhioqVv] [-s .suffix] [<file> [<file> ...]
 
@@ -21,5 +21,5 @@ usage: sip [-cdhioqVv] [-s .suffix] [<file> [<file> ...]
 
 ${endMessage}
 `
-	)
+	);
 }

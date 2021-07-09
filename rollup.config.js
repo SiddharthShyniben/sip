@@ -10,7 +10,7 @@ const config = [
 	{
 		input: 'bin-src/cli.mjs',
 		output: {
-			banner: '#!/usr/bin/env node',		
+			banner: '#!/usr/bin/env node',
 			dir: 'bin',
 			format: 'cjs'
 		}
